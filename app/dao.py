@@ -35,21 +35,12 @@ def read_customers():
 def read_products(name=None, from_price=None, to_price=None, brand=None, latest=True):
     products = read_all_products()
 
-    # if brand:
-    #     products = [p for p in products if p.name.lower().find(brand.lower()) >= 0]
-
     if name:
         products = [p for p in products if p.name.lower().find(name.lower()) >= 0]
         # return products
 
     if from_price and to_price:
         products = [p for p in products if p.price > from_price and p.price < to_price]
-        # return products
-
-
-    # if name and from_price and to_price:
-    #     products = [p for p in products if
-    #                 p.name.lower().find(name.lower()) and (p.price > from_price and p.price < to_price)]
         # return products
 
     return products

@@ -8,6 +8,8 @@ from app.models import *
 import hashlib
 from app import mail
 from twilio.rest import Client
+from datetime import datetime
+import dateutil
 
 
 @app.route("/")
@@ -19,12 +21,20 @@ def index():
 
 @app.route("/view-detail/<int:product_id>")
 def view_detail(product_id=None):
-    products = dao.read_products()
+    # products = dao.read_products()
     sales = dao.read_sale(product_id)
     colors = dao.read_colors(product_id)
     images = dao.read_images(product_id)
 
+
+
     product = Product.query.filter(Product.id == product_id).first()
+
+    cate = product.category_id
+    print(cate)
+
+    products = Product.query.filter(Product.category_id == cate).all()
+    print(products)
 
     return render_template("view_detail.html", product=product, sales=sales, products=products, colors=colors,
                            images=images)
@@ -38,8 +48,12 @@ def buy_product(product_id=None):
     if request.method == 'POST':
         product_id = request.form.get("product_id")
         product_name = request.form.get("product_name")
-        date = request.form.get("date")
+        date1 = request.form.get("date")
+        date = datetime.fromisoformat(date1)
+        print(date)
         quantity = request.form.get("quantity")
+        price = request.form.get("price")
+        image1 = request.form.get("image1")
         sum1 = request.form.get("sum")
         sum = float(sum1)
         print(sum)
@@ -49,7 +63,7 @@ def buy_product(product_id=None):
         address = request.form.get("address")
         email = request.form.get("email")
 
-        p1 = phone[1 : :]
+        p1 = phone[1::]
         print(p1)
         p2 = "+84" + p1
         print(p2)
@@ -58,14 +72,16 @@ def buy_product(product_id=None):
             customer_id = customer.id
             if dao.add_salesbill(product_id=product_id, customer_id=customer_id, date=date, quantity=quantity, sum=sum,
                                  color=color):
-                client = Client("AC5917d4c3e863d0c29818705fa95d2f57", "f7da606cd1e1a85620d3b5acf88f3b10")
+                client = Client("AC5917d4c3e863d0c29818705fa95d2f57", "6ac6749904640cee243a944d87f64ce0")
                 client.messages.create(to=p2,
                                        from_="+12055063586",
                                        body="Cảm ơn quý khách đã mua hàng tại LAPTOPLT!"
-                                            "Sản phẩm:" + product_name + ". Số lượng: " + quantity + ". Tổng tiền: " + sum1 + ".Xin vui lòng đợi trong giây lát chúng tôi sẽ gọi cho bạn để xác nhận!!!"
+                                            "Sản phẩm:" + product_name + ". Số lượng: " + quantity + ". Tổng tiền: "
+                                            + sum1 + ". Xin vui lòng đợi trong giây lát chúng tôi sẽ gọi cho bạn để xác nhận!!!"
                                        )
 
                 msg = "Bạn đã mua hàng thành công! Xin vui lòng kiểm tra tin nhắn!"
+
                 return render_template("buy_product.html", product=product, msg=msg)
 
     return render_template("buy_product.html", product=product, colors=colors)
@@ -82,7 +98,7 @@ def laptop():
         # print(brand)
 
         if price == "Dưới 10 triệu":
-            from_price = 0.0
+            from_price = 1.0
             to_price = 10000000.0
         elif price == "Từ 10 - 20 triệu":
             from_price = 10000000.0
@@ -94,14 +110,13 @@ def laptop():
             from_price = 0.0
             to_price = 100000000.0
 
-
-        products = dao.read_products(name=kw, from_price=from_price,to_price=to_price)
+        products = dao.read_products(name=kw, from_price=from_price, to_price=to_price)
         print(products)
         if products == []:
             err = "Sản phẩm không tồn tại!"
             return render_template("laptop.html", products=dao.read_all_products(), err=err)
         else:
-            msg = 'Kết quả tìm kiếm ' + " '"  + kw + "'" + " , " + price
+            msg = 'Kết quả tìm kiếm ' + " '" + kw + "'" + " , " + price
             return render_template("laptop.html", products=products, msg=msg)
 
     return render_template("laptop.html", products=dao.read_all_products())
@@ -142,9 +157,6 @@ def login():
     return render_template("admin/login.html", err_msg=err_msg)
 
 
-
-
-
 @app.route("/admin")
 def admin_page():
     quan = dao.read_all_quantity()
@@ -152,7 +164,6 @@ def admin_page():
     cus = dao.read_customers()
     print(cus)
     return render_template("admin/index.html", all_quan=quan, cus=cus)
-
 
 
 if __name__ == "__main__":

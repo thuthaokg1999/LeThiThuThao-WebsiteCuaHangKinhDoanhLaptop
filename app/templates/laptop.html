@@ -1,31 +1,51 @@
 {% extends 'base/base.html' %}
 {% block content %}
 <!---->
+<script>
+    function clickMac(){
+        return document.getElementById("kw").value  = "Macbook";
+    }
+    function clickHP(){
+        return document.getElementById("kw").value  = "HP";
+    }
+    function clickDell(){
+        return document.getElementById("kw").value  = "DELL";
+    }
+    function clickAsus(){
+        return document.getElementById("kw").value  = "Asus";
+    }
+    function clickMsi(){
+        return document.getElementById("kw").value  = "Msi";
+    }
+    function clickLenovo(){
+        return document.getElementById("kw").value  = "Lenovo";
+    }
+</script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <div class="laptop-area">
     <br>
-    <div class="brand-area">
-        <div class="brand-img"><a href="#"><img class="brand-image"
-                                                src="https://cdn.tgdd.vn/Brand/1/Macbook44-b_41.png"></a></div>
-        <div class="brand-img"><a href="#"><img class="brand-image"
-                                                src="https://cdn.tgdd.vn/Brand/1/HP-Compaq44-b_36.jpg"></a></div>
-        <div class="brand-img"><a href="#"><img class="brand-image"
-                                                src="https://cdn.tgdd.vn/Brand/1/Dell44-b_2.jpg"></a></div>
-        <div class="brand-img"><a href="#"><img class="brand-image"
-                                                src="https://cdn.tgdd.vn/Brand/1/Asus44-b_20.jpg"></a></div>
-        <div class="brand-img"><a href="#"><img class="brand-image"
-                                                src="https://cdn.tgdd.vn/Brand/1/MSI44-b_17.png"></a></div>
-        <div class="brand-img"><a href="#"><img class="brand-image"
-                                                src="https://cdn.tgdd.vn/Brand/1/Acer44-b_37.jpg"></a></div>
-    </div>
-    <br><br>
+<!--    <div class="brand-area">-->
+<!--        <div class="brand-img"><a onclick="clickMac()" href="#"><img class="brand-image"-->
+<!--                                                src="https://cdn.tgdd.vn/Brand/1/Macbook44-b_41.png"></a></div>-->
+<!--        <div class="brand-img"><a onclick="clickHP()" href="#"><img class="brand-image"-->
+<!--                                                src="https://cdn.tgdd.vn/Brand/1/HP-Compaq44-b_36.jpg"></a></div>-->
+<!--        <div class="brand-img"><a onclick="clickDell()" href="#"><img class="brand-image"-->
+<!--                                                src="https://cdn.tgdd.vn/Brand/1/Dell44-b_2.jpg"></a></div>-->
+<!--        <div class="brand-img"><a onclick="clickAsus()" href="#"><img class="brand-image"-->
+<!--                                                src="https://cdn.tgdd.vn/Brand/1/Asus44-b_20.jpg"></a></div>-->
+<!--        <div class="brand-img"><a onclick="clickMsi()" href="#"><img class="brand-image"-->
+<!--                                                src="https://cdn.tgdd.vn/Brand/1/MSI44-b_17.png"></a></div>-->
+<!--        <div class="brand-img"><a onclick="clickLenovo()" href="#"><img class="brand-image"-->
+<!--                                                src="https://cdn.tgdd.vn/Brand/1/Acer44-b_37.jpg"></a></div>-->
+<!--    </div>-->
+<!--    <br><br>-->
 
     {% if err %}
     <div class="container alert alert-warning alert-dismissable" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="close">
             <span aria-hidden="true">x</span>
         </button>
-        <div class="alert-icon">
+        <div class="alert-icon text-center">
             <i class="far fa-times-circle">{{err}}</i>
         </div>
     </div>

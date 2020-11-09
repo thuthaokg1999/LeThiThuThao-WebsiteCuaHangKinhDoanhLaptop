@@ -1,6 +1,6 @@
 from app import db, admin
 
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Boolean, Date, Text
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, Boolean, Date, Text, DateTime
 from sqlalchemy.orm import relationship
 
 from flask_admin.contrib.sqla import ModelView
@@ -42,6 +42,8 @@ class Product(db.Model):
     card_graphic = Column(String(255), nullable=True)
     display = Column(String(255), nullable=True)
     os = Column(String(255), nullable=True)
+    weight = Column(String(255), nullable=True)
+    pin = Column(String(255), nullable=True)
     description = Column(Text, nullable=True)
 
     category_id = Column(Integer, ForeignKey(Category.id), nullable=False)
@@ -104,7 +106,7 @@ class Receipt(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     product_id = Column(Integer, ForeignKey(Product.id), nullable=False)
     supplier_id = Column(Integer, ForeignKey(Supplier.id), nullable=False)
-    date = Column(String(255), nullable=True)
+    date = Column(DateTime, nullable=True)
     quantity = Column(Integer, default=0)
     sum = Column(Float, default=0)
     admin_id = Column(Integer, ForeignKey(Admin.id), nullable=True)
@@ -128,7 +130,7 @@ class SalesBill(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     product_id = Column(Integer, ForeignKey(Product.id), nullable=False)
     customer_id = Column(Integer, ForeignKey(Customer.id), nullable=True)
-    date = Column(String(255), nullable=True)
+    date = Column(DateTime, nullable=True)
     quantity = Column(Integer, default=0)
     sum = Column(Float, default=0)
     color = Column(String(255), nullable=False)
@@ -147,7 +149,7 @@ class CategoryModelView(ModelView):
 class ProductModelView(ModelView):
     can_export = True
     form_columns = (
-        'name', 'price', 'image1', 'ram', 'hard_drive',  'display', 'cpu', 'card_graphic', 'os',
+        'name', 'price', 'image1', 'ram', 'hard_drive', 'display', 'cpu', 'card_graphic', 'os', 'weight', 'pin',
         'description', 'category_id',)
     column_searchable_list = ('name', 'ram', 'hard_drive', 'card_graphic', 'display', 'os', 'cpu',)
 
@@ -156,16 +158,13 @@ class ProductModelView(ModelView):
 
 
 class CustomerModelView(ModelView):
-    can_export = True
     form_columns = ('name', 'phone', 'address', 'email',)
     column_searchable_list = ('name', 'phone', 'email',)
-
     def is_accessible(self):
         return current_user.is_authenticated
 
 
 class SupplierModelView(ModelView):
-    can_export = True
     form_columns = ('name', 'phone', 'address', 'email',)
     column_searchable_list = ('name', 'phone', 'email',)
 
@@ -176,14 +175,12 @@ class SupplierModelView(ModelView):
 class ReceiptModelView(ModelView):
     can_export = True
     column_searchable_list = ('date',)
-
     def is_accessible(self):
         return current_user.is_authenticated
 
 
 class SalesBillModelView(ModelView):
     can_export = True
-    can_edit = False
     column_searchable_list = ('date', 'color',)
 
     def is_accessible(self):
@@ -191,10 +188,15 @@ class SalesBillModelView(ModelView):
 
 
 class SaleInfoModelView(ModelView):
+    column_searchable_list = ('sale_content',)
     def is_accessible(self):
         return current_user.is_authenticated
 
+class ColorModelView(ModelView):
+    column_searchable_list = ('color', )
 
+    def is_accessible(self):
+        return current_user.is_authenticated
 class Search(BaseView):
     @expose("/", methods=['get', 'post'])
     def index(self):
@@ -238,13 +240,12 @@ class LogoutView(BaseView):
 # #admin view
 admin.add_view(CategoryModelView(Category, db.session, name="Loại sản phẩm"))
 admin.add_view(ProductModelView(Product, db.session, name="Sản phẩm"))
+admin.add_view(ColorModelView(Color, db.session, name="Màu sắc"))
+admin.add_view(SaleInfoModelView(SaleInfo, db.session, name="Khuyến mãi"))
 admin.add_view(CustomerModelView(Customer, db.session, name="Khách hàng"))
 admin.add_view(SupplierModelView(Supplier, db.session, name="Nhà cung cấp"))
 admin.add_view(ReceiptModelView(Receipt, db.session, name="Hóa đơn nhập"))
 admin.add_view(SalesBillModelView(SalesBill, db.session, name="Hóa đơn bán"))
-admin.add_view(SaleInfoModelView(SaleInfo, db.session, name="Khuyến mãi"))
-# admin.add_view(SaleInfoModelView(Image, db.session))
-admin.add_view(SaleInfoModelView(Color, db.session, name="Màu sắc"))
 admin.add_view(Search(name="Tìm kiếm"))
 admin.add_view(LogoutView(name="Đăng xuất"))
 

@@ -281,6 +281,7 @@ h4, h5{
 .pro-name {
     width: 100%;
     height: 40px;
+    color: blue;
 }
 .pro-name:hover {
     color: blue;
@@ -555,14 +556,14 @@ h4, h5{
 /*=====detail=====*/
 .view_detail {
     height: max-content;
-    width: 100%;
+
     box-shadow: 1px 4px 10px black;
 }
 .view {
     height: max-content;
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+
 }
 .left {
     width: 40%;
@@ -578,11 +579,20 @@ h4, h5{
     border-left: 1px dashed gray;
 }
 
-
-
+.view_subinfo {
+    list-style-type: none;
+}
+.view_subinfo > li {
+    margin: 7px;
+}
 .v_name{
     text-align: center;
     color: blue;
+}
+
+.p_b_area {
+    position: relative;
+    margin-top: 150px;
 }
 .v_btn-pro-buy{
     background-color: #1890ff;
@@ -607,6 +617,7 @@ h4, h5{
     color: green;
     margin-right: 5px;
 }
+
 /*=====buy-produc====*/
 .b_content {
     height: max-content;
