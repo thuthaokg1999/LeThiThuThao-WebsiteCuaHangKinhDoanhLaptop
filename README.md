@@ -5,5 +5,5 @@
 - Database : MySQL
 - Programming language: Python
 - Web framework: Python flask
-  + Setting: pip install flask
+  + Setting: <code>pip install flask</code>
   + Document: https://flask.palletsprojects.com/en/1.1.x/
