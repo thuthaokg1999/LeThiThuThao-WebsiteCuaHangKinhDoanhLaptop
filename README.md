@@ -1,5 +1,6 @@
 # LeThiThuThao-WebsiteCuaHangKinhDoanhLaptop
-# Topic: Laptop Store
-# IDE: Pycharm
-# Database : MySQL
-# Programming language: Python
+- Topic: Laptop Store
+- Member: Le Thi Thu Thao
+- IDE: Pycharm
+- Database : MySQL
+- Programming language: Python
