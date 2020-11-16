@@ -160,6 +160,7 @@ class ProductModelView(ModelView):
 class CustomerModelView(ModelView):
     form_columns = ('name', 'phone', 'address', 'email',)
     column_searchable_list = ('name', 'phone', 'email',)
+
     def is_accessible(self):
         return current_user.is_authenticated
 
@@ -175,6 +176,7 @@ class SupplierModelView(ModelView):
 class ReceiptModelView(ModelView):
     can_export = True
     column_searchable_list = ('date',)
+
     def is_accessible(self):
         return current_user.is_authenticated
 
@@ -189,14 +191,18 @@ class SalesBillModelView(ModelView):
 
 class SaleInfoModelView(ModelView):
     column_searchable_list = ('sale_content',)
+
     def is_accessible(self):
         return current_user.is_authenticated
+
 
 class ColorModelView(ModelView):
-    column_searchable_list = ('color', )
+    column_searchable_list = ('color',)
 
     def is_accessible(self):
         return current_user.is_authenticated
+
+
 class Search(BaseView):
     @expose("/", methods=['get', 'post'])
     def index(self):
@@ -240,13 +246,13 @@ class LogoutView(BaseView):
 # #admin view
 admin.add_view(CategoryModelView(Category, db.session, name="Loại sản phẩm"))
 admin.add_view(ProductModelView(Product, db.session, name="Sản phẩm"))
-admin.add_view(ColorModelView(Color, db.session, name="Màu sắc"))
-admin.add_view(SaleInfoModelView(SaleInfo, db.session, name="Khuyến mãi"))
 admin.add_view(CustomerModelView(Customer, db.session, name="Khách hàng"))
 admin.add_view(SupplierModelView(Supplier, db.session, name="Nhà cung cấp"))
 admin.add_view(ReceiptModelView(Receipt, db.session, name="Hóa đơn nhập"))
 admin.add_view(SalesBillModelView(SalesBill, db.session, name="Hóa đơn bán"))
-admin.add_view(Search(name="Tìm kiếm"))
+admin.add_view(ColorModelView(Color, db.session, name="Màu sắc"))
+admin.add_view(SaleInfoModelView(SaleInfo, db.session, name="Khuyến mãi"))
+# admin.add_view(Search(name="Tìm kiếm"))
 admin.add_view(LogoutView(name="Đăng xuất"))
 
 if __name__ == '__main__':

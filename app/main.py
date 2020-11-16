@@ -72,7 +72,7 @@ def buy_product(product_id=None):
             customer_id = customer.id
             if dao.add_salesbill(product_id=product_id, customer_id=customer_id, date=date, quantity=quantity, sum=sum,
                                  color=color):
-                client = Client("AC5917d4c3e863d0c29818705fa95d2f57", "6ac6749904640cee243a944d87f64ce0")
+                client = Client("AC5917d4c3e863d0c29818705fa95d2f57", "e48fbdd5e6e180ba8fb9563cf9f92db5")
                 client.messages.create(to=p2,
                                        from_="+12055063586",
                                        body="Cảm ơn quý khách đã mua hàng tại LAPTOPLT!"
